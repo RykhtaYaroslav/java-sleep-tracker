@@ -1,5 +1,7 @@
 package ru.yandex.practicum.sleeptracker;
 
+import ru.yandex.practicum.sleeptracker.customExceptions.SleepLogException;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,6 +10,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Optional;
 
 public class SleepLogReader {
@@ -15,29 +18,27 @@ public class SleepLogReader {
 
 
     public SleepLogReader(Path sleepLog) {
-
         this.sleepLog = sleepLog;
     }
 
-    public SleepingSession readLog() throws FileNotFoundException {
+    public List<SleepingSession> readLog() throws FileNotFoundException {
         try (BufferedReader bf = new BufferedReader(new FileReader(sleepLog.toFile()))) {
-            String line;
-            while ((line = bf.readLine()) != null) {
-                String[] parts = line.split(";");
-                SleepingSession sleepingSession = new SleepingSession(parts[0], parts[1], parts[2])
-            }
+            return bf.lines().map(line -> makeNewSleepingSession(line.split(";")).orElseThrow(() -> new SleepLogException("Не удалось обработать строку" + line))).toList();
         } catch (IOException e) {
             throw new FileNotFoundException("Не удалось найти лог-файл с данными о сне");
         }
+
     }
 
-    private Optional<SleepingSession> makeNewSleepingSession(String[] parts) {
-        return Optional.of(parts).filter(p -> p.length == 3)
-                .flatMap(p -> parseDateTime(p[0])
-                        .flatMap(asleep -> parseDateTime(p[1])
-                                .filter(asleep::isBefore)
-                                .flatMap(getUp -> parseSleepQuality(p[2])
-                                        .map(quality -> new SleepingSession(asleep, getUp, quality)))));
+    private Optional<SleepingSession> makeNewSleepingSession(String[] data) {
+        if (data.length != 3) {
+            return Optional.empty();
+        }
+        Optional<LocalDateTime> asleep = parseDateTime(data[0]);
+        Optional<LocalDateTime> getUp = parseDateTime(data[1]);
+        Optional<SleepQuality> quality = parseSleepQuality(data[2]);
+        return asleep.flatMap(a -> getUp.filter(a::isBefore).flatMap(g -> quality.map(q -> new SleepingSession(a, g, q))));
+
     }
 
     private Optional<LocalDateTime> parseDateTime(String p) {
@@ -91,3 +92,4 @@ public class SleepLogReader {
 //        return Optional.of(sleepingSession);
 //    }
     }
+}
