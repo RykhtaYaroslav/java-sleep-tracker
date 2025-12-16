@@ -23,7 +23,8 @@ public class SleepLogReader {
 
     public List<SleepingSession> readLog() throws FileNotFoundException {
         try (BufferedReader bf = new BufferedReader(new FileReader(sleepLog.toFile()))) {
-            return bf.lines().map(line -> makeNewSleepingSession(line.split(";")).orElseThrow(() -> new SleepLogException("Не удалось обработать строку" + line))).toList();
+            return bf.lines().map(line -> makeNewSleepingSession(line.split(";"))
+                    .orElseThrow(() -> new SleepLogException("Не удалось обработать строку" + line))).toList();
         } catch (IOException e) {
             throw new FileNotFoundException("Не удалось найти лог-файл с данными о сне");
         }

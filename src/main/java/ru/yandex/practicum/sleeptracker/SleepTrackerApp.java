@@ -16,7 +16,8 @@ public class SleepTrackerApp {
     public SleepTrackerApp(List<SleepingSession> sleepingSessionsList) {
         this.sleepingSessionsList = sleepingSessionsList;
         this.functions = List.of(new SleepSessionCounter(), new MinDurationSleepSessionCounter(),
-                new MaxDurationSleepSessionCounter(), new AverageSleepingDuration(), new BadQualitySleepingSessionsCount());
+                new MaxDurationSleepSessionCounter(), new AverageSleepingDuration(), new BadQualitySleepingSessionsCount(),
+                new SleeplessNightsCount());
     }
 
     public static void main(String[] args) {

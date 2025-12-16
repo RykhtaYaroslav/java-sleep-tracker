@@ -9,6 +9,6 @@ import java.util.function.Function;
 public class SleepSessionCounter implements Function<List<SleepingSession>, SleepAnalysisResult<?>> {
     @Override
     public SleepAnalysisResult<?> apply(List<SleepingSession> list) {
-        return new SleepAnalysisResult<>("Суммарное количество сессий сна ", list.size());
+        return new SleepAnalysisResult<>("Суммарное количество сессий сна", list.size());
     }
 }
