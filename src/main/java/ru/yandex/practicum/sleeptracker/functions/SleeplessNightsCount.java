@@ -40,12 +40,12 @@ public class SleeplessNightsCount implements Function<List<SleepingSession>, Sle
 
         long nightsAmount = ChronoUnit.DAYS.between(firstData, lastData) + 1;
 
-        Predicate<SleepingSession> isNightSleep = s ->
+        Predicate<SleepingSession> isNightSession = s ->
                 s.getAsleepTime().toLocalDate().isBefore(s.getGetUpTime().toLocalDate())
                         || s.getGetUpTime().toLocalTime().isBefore(LocalTime.of(6, 0));
         // Проверяет, попадает ли данная сессия сна в ночную
 
-        Function<SleepingSession, LocalDate> nightsDate = s -> {
+        Function<SleepingSession, LocalDate> sessionDate = s -> {
             LocalDate d = s.getAsleepTime().toLocalDate();
 
             LocalTime t = s.getAsleepTime().toLocalTime();
@@ -58,7 +58,7 @@ public class SleeplessNightsCount implements Function<List<SleepingSession>, Sle
         };
         // Переменная-функция определяет дату ночи для подсчёта сонных ночей
 
-        long sleepNights = sleepingSessions.stream().filter(isNightSleep).map(nightsDate).distinct().count();
+        long sleepNights = sleepingSessions.stream().filter(isNightSession).map(sessionDate).distinct().count();
 
         long sleeplessNights = nightsAmount - sleepNights;
 

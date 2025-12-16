@@ -17,7 +17,7 @@ public class SleepTrackerApp {
         this.sleepingSessionsList = sleepingSessionsList;
         this.functions = List.of(new SleepSessionCounter(), new MinDurationSleepSessionCounter(),
                 new MaxDurationSleepSessionCounter(), new AverageSleepingDuration(), new BadQualitySleepingSessionsCount(),
-                new SleeplessNightsCount());
+                new SleeplessNightsCount(), new ChronotypeSleepAnalyzer());
     }
 
     public static void main(String[] args) {
@@ -38,7 +38,5 @@ public class SleepTrackerApp {
         List<SleepingSession> list = tracker.sleepingSessionsList;
 
         tracker.functions.stream().map(f -> f.apply(list)).forEach(System.out::println);
-
-
     }
 }
