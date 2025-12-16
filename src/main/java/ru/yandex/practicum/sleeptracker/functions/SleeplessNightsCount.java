@@ -26,9 +26,9 @@ public class SleeplessNightsCount implements Function<List<SleepingSession>, Sle
         LocalDate lastData;
 
         if (sleepingSessions.getFirst().getAsleepTime().toLocalTime().isBefore(LocalTime.NOON)) {
-            firstData = sleepingSessions.getFirst().getAsleepTime().toLocalDate();
+            firstData = sleepingSessions.getFirst().getAsleepTime().toLocalDate().minusDays(1);
         } else {
-            firstData = sleepingSessions.getFirst().getAsleepTime().toLocalDate().plusDays(1);
+            firstData = sleepingSessions.getFirst().getAsleepTime().toLocalDate();
         }
 
         if (sleepingSessions.getLast().getGetUpTime().toLocalTime().isBefore(LocalTime.NOON)) {
@@ -42,7 +42,7 @@ public class SleeplessNightsCount implements Function<List<SleepingSession>, Sle
 
         Predicate<SleepingSession> isNightSession = s ->
                 s.getAsleepTime().toLocalDate().isBefore(s.getGetUpTime().toLocalDate())
-                        || s.getGetUpTime().toLocalTime().isBefore(LocalTime.of(6, 0));
+                        || s.getAsleepTime().toLocalTime().isBefore(LocalTime.of(6, 0));
         // Проверяет, попадает ли данная сессия сна в ночную
 
         Function<SleepingSession, LocalDate> sessionDate = s -> {

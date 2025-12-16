@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,13 +17,12 @@ import java.util.Optional;
 public class SleepLogReader {
     private final Path sleepLog;
 
-
     public SleepLogReader(Path sleepLog) {
         this.sleepLog = sleepLog;
     }
 
     public List<SleepingSession> readLog() throws FileNotFoundException {
-        try (BufferedReader bf = new BufferedReader(new FileReader(sleepLog.toFile()))) {
+        try (BufferedReader bf = new BufferedReader(new FileReader(sleepLog.toFile(), StandardCharsets.UTF_8))) {
             return bf.lines().map(line -> makeNewSleepingSession(line.split(";"))
                     .orElseThrow(() -> new SleepLogException("Не удалось обработать строку" + line))).toList();
         } catch (IOException e) {
@@ -59,38 +59,5 @@ public class SleepLogReader {
             case "BAD" -> Optional.of(SleepQuality.BAD);
             default -> Optional.empty();
         };
-
-
-//    private Optional<SleepingSession> makeNewSleepingSession(String[] parts) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
-//
-//        LocalDateTime asleep = LocalDateTime.parse(parts[0], formatter);
-//
-//        LocalDateTime getUp = LocalDateTime.parse(parts[1], formatter);
-//
-//        if (asleep.isAfter(getUp) || asleep.isEqual(getUp)){
-//            return Optional.empty();
-//        }
-//
-//        SleepQuality quality;
-//
-//        switch (parts[2]) {
-//            case "GOOD":
-//                quality = SleepQuality.GOOD;
-//                break;
-//            case "NORMAL":
-//                quality = SleepQuality.NORMAL;
-//                break;
-//            case "BAD":
-//                quality = SleepQuality.BAD;
-//                break;
-//            default:
-//                return Optional.empty();
-//        }
-//
-//        SleepingSession sleepingSession = new SleepingSession(asleep, getUp, quality);
-//
-//        return Optional.of(sleepingSession);
-//    }
     }
 }
