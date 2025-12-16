@@ -20,7 +20,7 @@ public class SleepLogReaderTest {
 
         String name = "testFile " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yy_HH.mm")) + ".txt";
 
-        try(FileWriter fr = new FileWriter(name, StandardCharsets.UTF_8, true)) {
+        try (FileWriter fr = new FileWriter(name, StandardCharsets.UTF_8, true)) {
             test = Paths.get(name);
 
             fr.write("\n");
@@ -43,24 +43,24 @@ public class SleepLogReaderTest {
         Path test2 = Paths.get(name2);
 
         String sleepData1 = """
-            01.10.25 23:15;02.10.25 07:30;GOOD
-            02.10.25 23:50;03.10.25 06:40;NORMAL
-            03.10.25 14:10;03.10.25 15:00;NORMAL
-            03.10.25 23:40;04.10.25 08:00;BAD
-            05.10.25 00:10;05.10.25 06:20;GOOD
-            05.10.25 13:30;05.10.25 14:15;NORMAL
-            06.10.25 22:30;07.10.25 05:50;GOOD
-            07.10.25 23:45;08.10.25 06:30;GOOD
-            08.10.25 23:50;09.10.25 07:10;GOOD
-            10.10.25 13:00;10.10.25 14:30;NORMAL
-            10.10.25 23:55;11.10.25 06:10;GOOD
-            11.10.25 23:10;12.10.25 07:00;BAD
-            30.10.25 23:50;31.10.25 06:30;GOOD
-            """;
+                01.10.25 23:15;02.10.25 07:30;GOOD
+                02.10.25 23:50;03.10.25 06:40;NORMAL
+                03.10.25 14:10;03.10.25 15:00;NORMAL
+                03.10.25 23:40;04.10.25 08:00;BAD
+                05.10.25 00:10;05.10.25 06:20;GOOD
+                05.10.25 13:30;05.10.25 14:15;NORMAL
+                06.10.25 22:30;07.10.25 05:50;GOOD
+                07.10.25 23:45;08.10.25 06:30;GOOD
+                08.10.25 23:50;09.10.25 07:10;GOOD
+                10.10.25 13:00;10.10.25 14:30;NORMAL
+                10.10.25 23:55;11.10.25 06:10;GOOD
+                11.10.25 23:10;12.10.25 07:00;BAD
+                30.10.25 23:50;31.10.25 06:30;GOOD
+                """;
 
         String sleepData2 = """
-            01.10.25 23:15;02.10.25 07:30;GOOD
-            """;
+                01.10.25 23:15;02.10.25 07:30;GOOD
+                """;
 
         Files.writeString(test1, sleepData1, StandardCharsets.UTF_8);
 
@@ -91,12 +91,12 @@ public class SleepLogReaderTest {
         Path test2 = Paths.get(name2);
 
         String sleepData1 = """
-            01.10.25 23:15;02.10.25 07:30;ХОРОШО
-            """;
+                01.10.25 23:15;02.10.25 07:30;ХОРОШО
+                """;
 
         String sleepData2 = """
-            01.13.25 23:15;02.10.25 07:30;GOOD
-            """;
+                01.13.25 23:15;02.10.25 07:30;GOOD
+                """;
 
         Files.writeString(test1, sleepData1, StandardCharsets.UTF_8);
 

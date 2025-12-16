@@ -11,8 +11,8 @@ public class AverageSleepingDuration implements Function<List<SleepingSession>, 
     @Override
     public SleepAnalysisResult<?> apply(List<SleepingSession> sleepingSessions) {
         double avgMinutes = sleepingSessions.stream().mapToLong(s -> Duration.between(s.getAsleepTime(), s.getGetUpTime()).toMinutes()).average().orElse(0);
-        long h = (long) avgMinutes/60;
-        long m = Math.round(avgMinutes - h*60);
+        long h = (long) avgMinutes / 60;
+        long m = Math.round(avgMinutes - h * 60);
         String avgDuration = String.format("%02d ч %02d м", h, m);
         return new SleepAnalysisResult<>("Средняя продолжительность сна", avgDuration);
     }
