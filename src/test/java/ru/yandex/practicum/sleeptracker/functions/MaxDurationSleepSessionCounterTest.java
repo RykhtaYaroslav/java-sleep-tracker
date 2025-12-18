@@ -11,7 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.List;
+
+import static java.time.temporal.ChronoUnit.HOURS;
 
 public class MaxDurationSleepSessionCounterTest {
     public List<SleepingSession> prepareTestSession(String sleepData) throws IOException {
@@ -37,7 +40,7 @@ public class MaxDurationSleepSessionCounterTest {
 
         SleepAnalysisResult<?> result = f.apply(testSession);
 
-        Assertions.assertEquals("00 ч 02 м", result.getValue());
+        Assertions.assertEquals(Duration.ofMinutes(2), result.getValue());
         Assertions.assertTrue(Files.deleteIfExists(Paths.get("testFile.txt")));
     }
 
@@ -54,7 +57,7 @@ public class MaxDurationSleepSessionCounterTest {
 
         SleepAnalysisResult<?> result = f.apply(testSession);
 
-        Assertions.assertEquals("08 ч 00 м", result.getValue());
+        Assertions.assertEquals(Duration.ofHours(8), result.getValue());
         Assertions.assertTrue(Files.deleteIfExists(Paths.get("testFile.txt")));
     }
 }

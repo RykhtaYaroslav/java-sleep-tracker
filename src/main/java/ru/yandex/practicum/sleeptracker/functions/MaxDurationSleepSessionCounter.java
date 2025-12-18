@@ -15,6 +15,6 @@ public class MaxDurationSleepSessionCounter implements Function<List<SleepingSes
                 .map(s -> Duration.between(s.getAsleepTime(), s.getGetUpTime()))
                 .max(Comparator.naturalOrder()).orElse(Duration.ZERO);
 
-        return new SleepAnalysisResult<>("Найдена минимальная длительность сессии сна", String.format("%02d ч %02d м", duration.toHours(), duration.toMinutesPart()));
+        return new SleepAnalysisResult<>("Найдена максимальная длительность сессии сна", duration);
     }
 }

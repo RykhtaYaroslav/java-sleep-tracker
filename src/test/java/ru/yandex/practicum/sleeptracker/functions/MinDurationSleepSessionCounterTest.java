@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.List;
 
 public class MinDurationSleepSessionCounterTest {
@@ -37,7 +38,7 @@ public class MinDurationSleepSessionCounterTest {
 
         SleepAnalysisResult<?> result = f.apply(testSession);
 
-        Assertions.assertEquals("00 ч 01 м", result.getValue());
+        Assertions.assertEquals(Duration.ofMinutes(1), result.getValue());
         Assertions.assertTrue(Files.deleteIfExists(Paths.get("testFile.txt")));
     }
 
@@ -54,7 +55,7 @@ public class MinDurationSleepSessionCounterTest {
 
         SleepAnalysisResult<?> result = f.apply(testSession);
 
-        Assertions.assertEquals("08 ч 00 м", result.getValue());
+        Assertions.assertEquals(Duration.ofHours(8), result.getValue());
         Assertions.assertTrue(Files.deleteIfExists(Paths.get("testFile.txt")));
     }
 
