@@ -21,9 +21,9 @@ public class SleepAnalysisResult<T> {
 
     @Override
     public String toString() {
-        if (value instanceof Duration){
+        if (value instanceof Duration) {
 
-            return description+ ": " + String.format("%02d:%02d", ((Duration) value).toHours(), ((Duration) value).toMinutesPart());
+            return description + ": " + String.format("%02d:%02d", ((Duration) value).toHours(), ((Duration) value).toMinutesPart());
         }
         return description + ": " + value;
     }
