@@ -14,8 +14,6 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.List;
 
-import static java.time.temporal.ChronoUnit.HOURS;
-
 public class MaxDurationSleepSessionCounterTest {
     public List<SleepingSession> prepareTestSession(String sleepData) throws IOException {
         Path testPath = Paths.get("testFile.txt");
